@@ -38,9 +38,10 @@ export default function Desktop() {
   const [platform, setPlatform] = useState("全部");
   const [items, setItems] = useState<SoftwareItem[]>([]);
   const [loading, setLoading] = useState(true);
-  const [time, setTime] = useState(() => new Date());
+  const [time, setTime] = useState<Date | null>(null);
 
   useEffect(() => {
+    setTime(new Date());
     const timer = window.setInterval(() => setTime(new Date()), 30_000);
     fetch("/api/software")
       .then((response) => response.json())
@@ -63,8 +64,12 @@ export default function Desktop() {
     setStartOpen(false);
   }
 
-  const formattedTime = new Intl.DateTimeFormat("zh-CN", { hour: "2-digit", minute: "2-digit", hour12: false }).format(time);
-  const formattedDate = new Intl.DateTimeFormat("zh-CN", { month: "2-digit", day: "2-digit", weekday: "short" }).format(time);
+  const formattedTime = time
+    ? new Intl.DateTimeFormat("zh-CN", { hour: "2-digit", minute: "2-digit", hour12: false }).format(time)
+    : "--:--";
+  const formattedDate = time
+    ? new Intl.DateTimeFormat("zh-CN", { month: "2-digit", day: "2-digit", weekday: "short" }).format(time)
+    : "正在同步";
 
   return (
     <main className="desktop-shell" onClick={() => startOpen && setStartOpen(false)}>
