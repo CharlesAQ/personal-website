@@ -256,7 +256,7 @@ export default function AdminPanel({ displayName, onSignOut }: { displayName: st
               {software.length ? software.map((item) => <article key={item.id}><div className="package-icon">⌑</div><div><strong>{item.name}</strong><span>{item.version ? `v${item.version.replace(/^v/i, "")} · ` : ""}{item.platform}{item.fileSize ? ` · ${formatBytes(item.fileSize)}` : ""}</span>{item.fileName && <small>{item.fileName}</small>}</div><div className="package-actions"><button onClick={() => editSoftware(item)}>编辑</button><button onClick={() => deleteSoftware(item.id)}>删除</button></div></article>) : <div className="admin-empty"><span>⌑</span><p>还没有上传软件</p></div>}
             </div>
           </div>
-        ) : (
+        ) : tab === "dev" || tab === "diary" ? (
           <div className="journal-wrap">
             {/* 顶部工具栏 */}
             <div className="journal-topbar">
@@ -305,8 +305,7 @@ export default function AdminPanel({ displayName, onSignOut }: { displayName: st
               </>
             )}
           </div>
-        )}
-        {tab === "bookmarks" && (
+        ) : (
           <div className="software-admin-layout">
             <form className="admin-card upload-form" onSubmit={saveBookmark}>
               <div className="card-heading">
