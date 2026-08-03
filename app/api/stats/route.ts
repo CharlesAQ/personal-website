@@ -1,4 +1,4 @@
-import { count } from "drizzle-orm";
+import { count, eq } from "drizzle-orm";
 import { getDb } from "@/db";
 import { software, journalEntries } from "@/db/schema";
 
@@ -10,11 +10,11 @@ export async function GET() {
     const [devRow] = await getDb()
       .select({ value: count() })
       .from(journalEntries)
-      .where(journalEntries.kind === "dev");
+      .where(eq(journalEntries.kind, "dev"));
     const [diaryRow] = await getDb()
       .select({ value: count() })
       .from(journalEntries)
-      .where(journalEntries.kind === "diary");
+      .where(eq(journalEntries.kind, "diary"));
 
     return Response.json({
       software: softwareRow?.value ?? 0,
