@@ -245,14 +245,20 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
 .package-list article > div:nth-child(2) { min-width: 0; display: grid; gap: 3px; }
 .package-list strong { font-size: 11px; color: var(--mist); }
 .package-list span,.package-list small { color: var(--ash); font-size: 9px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.package-list button { border: 0; background: transparent; color: var(--coral); font-size: 9px; cursor: pointer; opacity: .8; }
-.package-list button:hover { opacity: 1; }
-.package-actions { display: flex; gap: 6px; }
+.package-list button {
+  height: 32px; padding: 0 12px; border: 1px solid var(--graphite); border-radius: var(--r-btn);
+  background: transparent; color: var(--coral); font-size: 12px; cursor: pointer;
+  opacity: .9; transition: .12s; white-space: nowrap;
+}
+.package-list button:hover { opacity: 1; border-color: var(--coral); background: rgba(235,87,87,.06); }
+.package-actions { display: flex; gap: 8px; }
 .package-actions button:first-child { color: var(--acid); }
+.package-actions button:first-child:hover { border-color: var(--acid); background: rgba(228,242,34,.06); }
 
 .ghost-button {
-  padding: 10px 16px; border: 1px solid var(--graphite); border-radius: var(--r-btn);
-  background: transparent; color: var(--fog); font-size: 11px; cursor: pointer;
+  height: 36px; padding: 0 16px; border: 1px solid var(--graphite); border-radius: var(--r-btn);
+  background: transparent; color: var(--fog); font-size: 12px; cursor: pointer;
+  transition: .12s; white-space: nowrap;
 }
 .ghost-button:hover { border-color: var(--smoke); color: var(--mist); }
 
@@ -266,7 +272,11 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
 .entry-list-tools label { flex: 1; height: 36px; display: flex; align-items: center; gap: 7px; padding: 0 10px; border: 1px solid var(--graphite); border-radius: var(--r-btn); background: var(--void); }
 .entry-list-tools input { width: 100%; border: 0; outline: 0; background: transparent; font-size: 10px; color: var(--mist); }
 .entry-list-tools input::placeholder { color: var(--ash); }
-.entry-list-tools button { width: 36px; border: 0; border-radius: var(--r-btn); color: var(--void); background: var(--acid); font-size: 18px; cursor: pointer; }
+.entry-list-tools button {
+  width: 36px; height: 36px; border: 0; border-radius: var(--r-btn); color: var(--void);
+  background: var(--acid); font-size: 18px; cursor: pointer; transition: .12s;
+}
+.entry-list-tools button:hover { filter: brightness(1.1); }
 
 .entry-scroll { height: calc(100% - 52px); overflow: auto; padding: 8px; }
 .entry-scroll > button { width: 100%; display: grid; gap: 5px; padding: 13px; border: 0; border-radius: var(--r-btn); background: transparent; text-align: left; cursor: pointer; color: var(--mist); }
@@ -280,8 +290,12 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
 .editor-toolbar { min-height: 58px; padding: 12px 18px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--graphite); color: var(--ash); font-size: 10px; }
 .editor-toolbar > div { display: flex; gap: 8px; }
 .editor-toolbar .primary-button { min-height: 32px; }
-.danger-text { border: 0; background: transparent; color: var(--coral); font-size: 9px; cursor: pointer; opacity: .8; }
-.danger-text:hover { opacity: 1; }
+.danger-text {
+  height: 32px; padding: 0 12px; border: 1px solid var(--graphite); border-radius: var(--r-btn);
+  background: transparent; color: var(--coral); font-size: 12px; cursor: pointer;
+  opacity: .9; transition: .12s; white-space: nowrap;
+}
+.danger-text:hover { opacity: 1; border-color: var(--coral); background: rgba(235,87,87,.06); }
 
 .title-input { margin: 25px 28px 12px; padding: 0; border: 0; outline: 0; font-size: 28px; font-weight: 510; letter-spacing: -.022em; background: transparent; color: var(--paper); }
 .title-input::placeholder { color: var(--graphite); }
