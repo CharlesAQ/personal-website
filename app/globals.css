@@ -162,6 +162,39 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
 .ghost-link { color: var(--mid-gray); font-size: 12px; font-weight: 500; transition: color .15s; }
 .ghost-link:hover { color: var(--ink); }
 
+/* ── Bookmarks Grid ── */
+.bookmark-meta {
+  display: flex; justify-content: space-between; padding-bottom: 12px;
+  margin-bottom: 20px; border-bottom: 1px solid var(--hairline);
+  color: var(--mid-gray); font-size: 12px;
+}
+.bookmark-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;
+}
+.bookmark-card {
+  display: flex; gap: 14px; align-items: flex-start;
+  padding: 18px; border: 1px solid var(--hairline); border-radius: var(--r-card);
+  background: var(--paper); box-shadow: var(--card-shadow);
+  transition: .15s; min-width: 0;
+}
+.bookmark-card:hover { border-color: #d4d4d4; box-shadow: 0 0 0 1px rgba(23,23,23,.05), 0 4px 12px rgba(0,0,0,.08); transform: translateY(-2px); }
+.bookmark-favicon {
+  flex: 0 0 auto; width: 40px; height: 40px; display: grid; place-items: center;
+  border-radius: var(--r-nested); background: var(--canvas); overflow: hidden;
+}
+.bookmark-favicon img { width: 24px; height: 24px; display: block; }
+.bookmark-favicon span { color: var(--mid-gray); font-size: 16px; }
+.bookmark-body { min-width: 0; display: grid; gap: 4px; }
+.bookmark-title { display: flex; align-items: center; gap: 8px; }
+.bookmark-title h3 { margin: 0; font-size: 14px; font-weight: 600; color: var(--ink); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.bookmark-cat {
+  flex: 0 0 auto; padding: 2px 10px; border-radius: var(--r-btn);
+  background: var(--canvas); color: var(--ink-soft); font-size: 11px; font-weight: 500;
+}
+.bookmark-body p { margin: 0; font-size: 12px; color: var(--mid-gray); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.bookmark-body small { font-size: 11px; color: #a3a3a3; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.bookmark-empty { grid-column: 1 / -1; }
+
 /* ── Loading & Empty ── */
 .loading-card {
   height: 90px; border-radius: var(--r-card);
@@ -515,6 +548,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
   .software-card { grid-template-columns: 48px 1fr; }
   .software-actions { grid-column: 1 / -1; flex-direction: row; }
   .software-actions > * { flex: 1; }
+  .bookmark-grid { grid-template-columns: repeat(2, 1fr); }
   .about-grid { grid-template-columns: 1fr; gap: 24px; text-align: center; }
   .about-orb { margin: 0 auto; }
   .admin-page { grid-template-columns: 1fr; }
@@ -532,6 +566,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
   .hero h1 { font-size: 40px; }
   .software-card { padding: 14px; gap: 10px; }
   .section-header h2 { font-size: 28px; }
+  .bookmark-grid { grid-template-columns: 1fr; }
   .form-row,.editor-meta { grid-template-columns: 1fr; }
   .title-input { font-size: 23px; }
   .content-editor-wrapper { margin: 0 16px; }

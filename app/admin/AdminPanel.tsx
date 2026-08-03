@@ -3,9 +3,10 @@
 import { FormEvent, useCallback, useEffect, useState } from "react";
 import RichEditor from "../components/RichEditor";
 
-type Tab = "software" | "dev" | "diary";
+type Tab = "software" | "dev" | "diary" | "bookmarks";
 type SoftwareItem = { id: number; name: string; description: string; version: string; platform: string; fileName: string; fileSize: number; officialUrl: string; downloadUrl: string };
 type Entry = { id: number; kind: "dev" | "diary"; title: string; content: string; tags: string; mood: string; entryDate: string };
+type Bookmark = { id: number; name: string; url: string; description: string; category: string };
 
 const today = new Date().toISOString().slice(0, 10);
 
@@ -27,6 +28,9 @@ export default function AdminPanel({ displayName, onSignOut }: { displayName: st
   const [editingSoftwareId, setEditingSoftwareId] = useState<number | null>(null);
   const [listOpen, setListOpen] = useState(false);
   const [softwareDraft, setSoftwareDraft] = useState({ name: "", description: "", version: "", platform: "Windows", officialUrl: "", downloadUrl: "", fileName: "", fileSize: 0 });
+  const [bookmarks, setBookmarks] = useState<Bookmark[]>([]);
+  const [bookmarkDraft, setBookmarkDraft] = useState({ name: "", url: "", description: "", category: "工具" });
+  const [editingBookmarkId, setEditingBookmarkId] = useState<number | null>(null);
 
   const loadSoftware = useCallback(async () => {
     const response = await fetch("/api/software");
@@ -43,7 +47,13 @@ export default function AdminPanel({ displayName, onSignOut }: { displayName: st
     setEntries(data.entries ?? []);
   }, []);
 
-  useEffect(() => { loadSoftware(); }, [loadSoftware]);
+  const loadBookmarks = useCallback(async () => {
+    const response = await fetch("/api/bookmarks");
+    const data = await response.json();
+    setBookmarks(data.bookmarks ?? []);
+  }, []);
+
+  useEffect(() => { loadSoftware(); loadBookmarks(); }, [loadSoftware, loadBookmarks]);
   useEffect(() => {
     setSelectedId(null);
     setEntryDraft({ title: "", content: "", tags: "", mood: "平静", entryDate: today });
@@ -105,6 +115,50 @@ export default function AdminPanel({ displayName, onSignOut }: { displayName: st
     setSoftwareDraft({ name: "", description: "", version: "", platform: "Windows", officialUrl: "", downloadUrl: "", fileName: "", fileSize: 0 });
   }
 
+  async function saveBookmark(event: FormEvent) {
+    event.preventDefault();
+    setBusy(true); setNotice(editingBookmarkId ? "正在保存…" : "正在添加…");
+    const endpoint = editingBookmarkId ? `/api/bookmarks/${editingBookmarkId}` : "/api/bookmarks";
+    try {
+      const response = await fetch(endpoint, {
+        method: editingBookmarkId ? "PATCH" : "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify(bookmarkDraft),
+      });
+      const data = await response.json();
+      if (response.ok) {
+        setEditingBookmarkId(null);
+        setBookmarkDraft({ name: "", url: "", description: "", category: "工具" });
+        setNotice(editingBookmarkId ? "网址已更新。" : "网址已收藏。");
+        await loadBookmarks();
+      } else {
+        setNotice(data.error || "保存失败。");
+      }
+    } catch {
+      setNotice("网络错误，请重试。");
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  function editBookmark(item: Bookmark) {
+    setEditingBookmarkId(item.id);
+    setBookmarkDraft({ name: item.name, url: item.url, description: item.description, category: item.category });
+  }
+
+  function cancelBookmarkEdit() {
+    setEditingBookmarkId(null);
+    setBookmarkDraft({ name: "", url: "", description: "", category: "工具" });
+  }
+
+  async function deleteBookmark(id: number) {
+    if (!window.confirm("确定删除这个网址？")) return;
+    const response = await fetch(`/api/bookmarks/${id}`, { method: "DELETE" });
+    const data = await response.json();
+    setNotice(response.ok ? "网址已删除。" : data.error || "删除失败。");
+    if (response.ok) loadBookmarks();
+  }
+
   async function deleteSoftware(id: number) {
     if (!window.confirm("同时删除安装包和软件信息？")) return;
     const response = await fetch(`/api/software/${id}`, { method: "DELETE" });
@@ -163,6 +217,7 @@ export default function AdminPanel({ displayName, onSignOut }: { displayName: st
           <button className={tab === "software" ? "active" : ""} onClick={() => setTab("software")}><span>↓</span>软件管理</button>
           <button className={tab === "dev" ? "active" : ""} onClick={() => setTab("dev")}><span>⌘</span>开发日志</button>
           <button className={tab === "diary" ? "active" : ""} onClick={() => setTab("diary")}><span>✦</span>私人日记</button>
+          <button className={tab === "bookmarks" ? "active" : ""} onClick={() => setTab("bookmarks")}><span>⌁</span>网址收藏</button>
         </nav>
         <div className="admin-account"><span className="avatar">糯</span><div><strong>{displayName}</strong><a href="#" onClick={(e) => { e.preventDefault(); onSignOut(); }}>退出登录</a></div></div>
       </aside>
@@ -249,6 +304,31 @@ export default function AdminPanel({ displayName, onSignOut }: { displayName: st
                 </aside>
               </>
             )}
+          </div>
+        )}
+        {tab === "bookmarks" && (
+          <div className="software-admin-layout">
+            <form className="admin-card upload-form" onSubmit={saveBookmark}>
+              <div className="card-heading">
+                <div>
+                  <span className="eyebrow">{editingBookmarkId ? "EDIT BOOKMARK" : "NEW BOOKMARK"}</span>
+                  <h2>{editingBookmarkId ? "编辑网址" : "收藏网址"}</h2>
+                </div>
+                <span className="step-badge">公开</span>
+              </div>
+              <label>网站名称<input name="name" required placeholder="例如：GitHub" value={bookmarkDraft.name} onChange={(e) => setBookmarkDraft({ ...bookmarkDraft, name: e.target.value })} /></label>
+              <label>网址<input name="url" type="url" required placeholder="https://…" value={bookmarkDraft.url} onChange={(e) => setBookmarkDraft({ ...bookmarkDraft, url: e.target.value })} /></label>
+              <label>一句话说明<textarea name="description" rows={2} placeholder="这个网站是干什么的？" value={bookmarkDraft.description} onChange={(e) => setBookmarkDraft({ ...bookmarkDraft, description: e.target.value })} /></label>
+              <label>分类<select value={bookmarkDraft.category} onChange={(e) => setBookmarkDraft({ ...bookmarkDraft, category: e.target.value })}><option>工具</option><option>AI</option><option>学习</option><option>设计</option><option>影视</option><option>资讯</option><option>其他</option></select></label>
+              <div style={{ display: "flex", gap: 8 }}>
+                <button className="primary-button" disabled={busy} style={{ flex: 1 }}>{editingBookmarkId ? "保存修改" : "添加到收藏"}</button>
+                {editingBookmarkId && <button type="button" className="ghost-button" onClick={cancelBookmarkEdit}>取消</button>}
+              </div>
+            </form>
+            <div className="admin-card package-list">
+              <div className="card-heading"><div><span className="eyebrow">ON THE SHELF</span><h2>已有网址</h2></div><span className="count-badge">{bookmarks.length}</span></div>
+              {bookmarks.length ? bookmarks.map((item) => <article key={item.id}><div className="package-icon">⌁</div><div><strong>{item.name}</strong><span>{item.category} · {item.url}</span>{item.description && <small>{item.description}</small>}</div><div className="package-actions"><button onClick={() => editBookmark(item)}>编辑</button><button onClick={() => deleteBookmark(item.id)}>删除</button></div></article>) : <div className="admin-empty"><span>⌁</span><p>还没有收藏网址</p></div>}
+            </div>
           </div>
         )}
       </section>

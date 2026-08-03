@@ -3,10 +3,22 @@
 import { useEffect, useState } from "react";
 import type { SoftwareItem } from "./types";
 import { SoftwareGrid } from "./components/SoftwareGrid";
+import { BookmarksGrid } from "./components/BookmarksGrid";
+
+type Bookmark = {
+  id: number;
+  name: string;
+  url: string;
+  description: string;
+  category: string;
+  createdAt: string;
+};
 
 export default function HomePage() {
   const [items, setItems] = useState<SoftwareItem[]>([]);
   const [loading, setLoading] = useState(true);
+  const [bookmarks, setBookmarks] = useState<Bookmark[]>([]);
+  const [bookmarksLoading, setBookmarksLoading] = useState(true);
 
   useEffect(() => {
     fetch("/api/software")
@@ -14,6 +26,12 @@ export default function HomePage() {
       .then((d) => setItems(d.software ?? []))
       .catch(() => setItems([]))
       .finally(() => setLoading(false));
+
+    fetch("/api/bookmarks")
+      .then((r) => r.json())
+      .then((d) => setBookmarks(d.bookmarks ?? []))
+      .catch(() => setBookmarks([]))
+      .finally(() => setBookmarksLoading(false));
   }, []);
 
   return (
@@ -27,7 +45,8 @@ export default function HomePage() {
           </a>
           <div className="nav-links">
             <a href="#software">软件库</a>
-            <a href="#about">关于</a>
+            <a href="#bookmarks">网址收藏</a>
+          <a href="#about">关于</a>
             <a href="/admin" className="nav-admin">管理</a>
           </div>
         </div>
@@ -44,6 +63,9 @@ export default function HomePage() {
 
       {/* ── Software ── */}
       <SoftwareGrid items={items} loading={loading} />
+
+      {/* ── Bookmarks ── */}
+      <BookmarksGrid items={bookmarks} loading={bookmarksLoading} />
 
       {/* ── About ── */}
       <section id="about" className="page-section about-section">

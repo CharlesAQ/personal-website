@@ -25,3 +25,12 @@ export const journalEntries = sqliteTable("journal_entries", {
   createdAt: text("created_at").notNull().default(sql`CURRENT_TIMESTAMP`),
   updatedAt: text("updated_at").notNull().default(sql`CURRENT_TIMESTAMP`),
 });
+
+export const bookmarks = sqliteTable("bookmarks", {
+  id: integer("id").primaryKey({ autoIncrement: true }),
+  name: text("name").notNull(),
+  url: text("url").notNull(),
+  description: text("description").notNull().default(""),
+  category: text("category").notNull().default("其他"),
+  createdAt: text("created_at").notNull().default(sql`CURRENT_TIMESTAMP`),
+});
