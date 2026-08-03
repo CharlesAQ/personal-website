@@ -57,7 +57,7 @@ export default function AdminPanel({ displayName, onSignOut }: { displayName: st
   useEffect(() => {
     setSelectedId(null);
     setEntryDraft({ title: "", content: "", tags: "", mood: "平静", entryDate: today });
-    if (tab !== "software") loadEntries(tab).catch((error) => setNotice(error.message));
+    if (tab === "dev" || tab === "diary") loadEntries(tab).catch((error) => setNotice(error.message));
   }, [tab, loadEntries]);
 
   async function uploadSoftware(event: FormEvent<HTMLFormElement>) {
@@ -224,7 +224,7 @@ export default function AdminPanel({ displayName, onSignOut }: { displayName: st
 
       <section className="admin-workspace">
         <header className="admin-topbar">
-          <div><span className="eyebrow">{tab === "software" ? "PUBLIC LIBRARY" : "PRIVATE NOTES"}</span><h1>{tab === "software" ? "软件管理" : tab === "dev" ? "开发日志" : "私人日记"}</h1></div>
+          <div><span className="eyebrow">{tab === "software" ? "PUBLIC LIBRARY" : tab === "bookmarks" ? "BOOKMARKS" : "PRIVATE NOTES"}</span><h1>{tab === "software" ? "软件管理" : tab === "dev" ? "开发日志" : tab === "diary" ? "私人日记" : "网址收藏"}</h1></div>
           <div className="secure-pill"><span />仅管理员可见</div>
         </header>
 
