@@ -4,12 +4,9 @@ import { useEffect, useState } from "react";
 import type { SoftwareItem } from "./types";
 import { SoftwareGrid } from "./components/SoftwareGrid";
 
-type Stats = { software: number; dev: number; diary: number };
-
 export default function HomePage() {
   const [items, setItems] = useState<SoftwareItem[]>([]);
   const [loading, setLoading] = useState(true);
-  const [stats, setStats] = useState<Stats | null>(null);
 
   useEffect(() => {
     fetch("/api/software")
@@ -17,11 +14,6 @@ export default function HomePage() {
       .then((d) => setItems(d.software ?? []))
       .catch(() => setItems([]))
       .finally(() => setLoading(false));
-
-    fetch("/api/stats")
-      .then((r) => r.json())
-      .then((d) => setStats({ software: d.software ?? 0, dev: d.dev ?? 0, diary: d.diary ?? 0 }))
-      .catch(() => setStats(null));
   }, []);
 
   return (
@@ -48,22 +40,6 @@ export default function HomePage() {
         <p>
           把喜欢的工具和生活片段，安静地放在一起。
         </p>
-        {stats && (
-          <div className="hero-stats">
-            <div className="hero-stat-card">
-              <span className="stat-label">软件收藏</span>
-              <strong>{stats.software}</strong>
-            </div>
-            <div className="hero-stat-card">
-              <span className="stat-label">开发日志</span>
-              <strong>{stats.dev}</strong>
-            </div>
-            <div className="hero-stat-card">
-              <span className="stat-label">私人日记</span>
-              <strong>{stats.diary}</strong>
-            </div>
-          </div>
-        )}
       </section>
 
       {/* ── Software ── */}

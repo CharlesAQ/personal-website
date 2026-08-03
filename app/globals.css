@@ -80,26 +80,6 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
 }
 .hero > p { max-width: 480px; margin: 0 auto; color: var(--mid-gray); font-size: 16px; line-height: 1.5; }
 
-/* ── Hero Stats ── */
-.hero-stats {
-  display: flex; justify-content: center; gap: 12px; margin-top: 48px;
-}
-.hero-stat-card {
-  min-width: 120px; padding: 20px 24px;
-  border: 1px solid var(--hairline); border-radius: var(--r-card);
-  background: var(--paper); box-shadow: var(--card-shadow);
-  display: grid; gap: 6px; text-align: center; transition: .15s;
-}
-.hero-stat-card:hover { border-color: #d4d4d4; transform: translateY(-2px); }
-.stat-label {
-  font-size: 12px; font-weight: 500; color: var(--mid-gray);
-  text-transform: uppercase; letter-spacing: .05em;
-}
-.hero-stat-card strong {
-  font-size: 36px; font-weight: 600; color: var(--ink);
-  letter-spacing: -.025em; line-height: 1.1;
-}
-
 /* ── Page Section ── */
 .page-section { max-width: 1280px; margin: 0 auto; padding: 80px 32px; }
 
@@ -550,9 +530,6 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
 
 @media (max-width: 520px) {
   .hero h1 { font-size: 40px; }
-  .hero-stats { flex-wrap: wrap; }
-  .hero-stat-card { min-width: 100px; padding: 14px 16px; }
-  .hero-stat-card strong { font-size: 28px; }
   .software-card { padding: 14px; gap: 10px; }
   .section-header h2 { font-size: 28px; }
   .form-row,.editor-meta { grid-template-columns: 1fr; }
