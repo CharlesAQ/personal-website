@@ -1,6 +1,7 @@
 "use client";
 
 import { FormEvent, useCallback, useEffect, useState } from "react";
+import RichEditor from "../components/RichEditor";
 
 type Tab = "software" | "dev" | "diary";
 type SoftwareItem = { id: number; name: string; version: string; platform: string; fileName: string; fileSize: number };
@@ -175,7 +176,13 @@ export default function AdminPanel({ displayName, onSignOut }: { displayName: st
               <div className="editor-toolbar"><span>{selectedId ? "正在编辑" : "新建记录"}</span><div>{selectedId && <button type="button" className="danger-text" onClick={deleteEntry}>删除</button>}<button className="primary-button" disabled={busy}>保存</button></div></div>
               <input className="title-input" value={entryDraft.title} onChange={(event) => setEntryDraft({ ...entryDraft, title: event.target.value })} placeholder={tab === "dev" ? "这次解决了什么？" : "今天发生了什么？"} required />
               <div className="editor-meta"><label>日期<input type="date" value={entryDraft.entryDate} onChange={(event) => setEntryDraft({ ...entryDraft, entryDate: event.target.value })} /></label><label>心情<select value={entryDraft.mood} onChange={(event) => setEntryDraft({ ...entryDraft, mood: event.target.value })}><option>平静</option><option>开心</option><option>专注</option><option>疲惫</option><option>有灵感</option></select></label><label>标签<input value={entryDraft.tags} onChange={(event) => setEntryDraft({ ...entryDraft, tags: event.target.value })} placeholder="用逗号分隔" /></label></div>
-              <textarea className="content-editor" value={entryDraft.content} onChange={(event) => setEntryDraft({ ...entryDraft, content: event.target.value })} placeholder={tab === "dev" ? "记录思路、问题、取舍和下一步……" : "这里完全只属于你……"} />
+              <div className="content-editor-wrapper">
+                <RichEditor
+                  content={entryDraft.content}
+                  onChange={(html) => setEntryDraft({ ...entryDraft, content: html })}
+                  placeholder={tab === "dev" ? "记录思路、问题、取舍和下一步……" : "这里完全只属于你……"}
+                />
+              </div>
             </form>
           </div>
         )}
