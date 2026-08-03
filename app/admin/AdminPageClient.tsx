@@ -43,7 +43,7 @@ function LoginForm() {
             onChange={(e) => setPassword(e.target.value)}
             placeholder="管理员密码"
             required
-            style={{ padding: "8px 16px", borderRadius: 6, border: "1px solid #444", background: "#1a1a2e", color: "#fff", fontSize: 16, width: 220, textAlign: "center" }}
+            style={{ padding: "10px 16px", borderRadius: 18, border: "1px solid #e5e5e5", background: "#f5f5f5", color: "#0a0a0a", fontSize: 14, width: 220, textAlign: "center", outline: "none" }}
           />
           {error && <small style={{ color: "#f87171" }}>{error}</small>}
           <button className="primary-button" disabled={busy} type="submit">进入管理面板</button>
