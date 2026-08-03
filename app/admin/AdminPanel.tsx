@@ -4,7 +4,7 @@ import { FormEvent, useCallback, useEffect, useState } from "react";
 import RichEditor from "../components/RichEditor";
 
 type Tab = "software" | "dev" | "diary";
-type SoftwareItem = { id: number; name: string; version: string; platform: string; fileName: string; fileSize: number };
+type SoftwareItem = { id: number; name: string; description: string; version: string; platform: string; fileName: string; fileSize: number; officialUrl: string; downloadUrl: string };
 type Entry = { id: number; kind: "dev" | "diary"; title: string; content: string; tags: string; mood: string; entryDate: string };
 
 const today = new Date().toISOString().slice(0, 10);
@@ -24,6 +24,8 @@ export default function AdminPanel({ displayName, onSignOut }: { displayName: st
   const [notice, setNotice] = useState("");
   const [busy, setBusy] = useState(false);
   const [entryDraft, setEntryDraft] = useState({ title: "", content: "", tags: "", mood: "平静", entryDate: today });
+  const [editingSoftwareId, setEditingSoftwareId] = useState<number | null>(null);
+  const [softwareDraft, setSoftwareDraft] = useState({ name: "", description: "", version: "", platform: "Windows", officialUrl: "", downloadUrl: "", fileName: "", fileSize: 0 });
 
   const loadSoftware = useCallback(async () => {
     const response = await fetch("/api/software");
@@ -49,31 +51,57 @@ export default function AdminPanel({ displayName, onSignOut }: { displayName: st
 
   async function uploadSoftware(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    setBusy(true); setNotice("正在添加…");
+    setBusy(true); setNotice(editingSoftwareId ? "正在保存…" : "正在添加…");
     const form = event.currentTarget;
     const formData = new FormData(form);
     const payload: Record<string, unknown> = {};
     formData.forEach((value, key) => { payload[key] = value; });
     const fileSize = parseInt(String(payload.fileSize ?? "0"), 10) || 0;
+    const body = { ...payload, fileSize };
+
+    const endpoint = editingSoftwareId ? `/api/software/${editingSoftwareId}` : "/api/software";
+    const method = editingSoftwareId ? "PATCH" : "POST";
+
     try {
-      const response = await fetch("/api/software", {
-        method: "POST",
+      const response = await fetch(endpoint, {
+        method,
         headers: { "content-type": "application/json" },
-        body: JSON.stringify({ ...payload, fileSize }),
+        body: JSON.stringify(body),
       });
       const data = await response.json();
       if (response.ok) {
         form.reset();
-        setNotice("软件已放上公开书架。");
+        setEditingSoftwareId(null);
+        setSoftwareDraft({ name: "", description: "", version: "", platform: "Windows", officialUrl: "", downloadUrl: "", fileName: "", fileSize: 0 });
+        setNotice(editingSoftwareId ? "软件已更新。" : "软件已放上公开书架。");
         await loadSoftware();
       } else {
-        setNotice(data.error || "添加失败。");
+        setNotice(data.error || "保存失败。");
       }
     } catch {
       setNotice("网络错误，请重试。");
     } finally {
       setBusy(false);
     }
+  }
+
+  function editSoftware(item: SoftwareItem) {
+    setEditingSoftwareId(item.id);
+    setSoftwareDraft({
+      name: item.name,
+      description: item.description || "",
+      version: item.version,
+      platform: item.platform,
+      officialUrl: item.officialUrl,
+      downloadUrl: item.downloadUrl,
+      fileName: item.fileName || "",
+      fileSize: item.fileSize || 0,
+    });
+  }
+
+  function cancelEdit() {
+    setEditingSoftwareId(null);
+    setSoftwareDraft({ name: "", description: "", version: "", platform: "Windows", officialUrl: "", downloadUrl: "", fileName: "", fileSize: 0 });
   }
 
   async function deleteSoftware(id: number) {
@@ -149,18 +177,27 @@ export default function AdminPanel({ displayName, onSignOut }: { displayName: st
         {tab === "software" ? (
           <div className="software-admin-layout">
             <form className="admin-card upload-form" onSubmit={uploadSoftware}>
-              <div className="card-heading"><div><span className="eyebrow">NEW PACKAGE</span><h2>上传软件</h2></div><span className="step-badge">公开</span></div>
-              <label>软件名称<input name="name" required placeholder="例如：LocalSend" /></label>
-              <div className="form-row"><label>版本号<input name="version" placeholder="1.17.0" /></label><label>平台<select name="platform" defaultValue="Windows"><option>Windows</option><option>macOS</option><option>Linux</option><option>跨平台</option></select></label></div>
-              <label>一句话说明<textarea name="description" rows={3} placeholder="这个工具解决什么问题？" /></label>
-              <label>官方页面<input name="officialUrl" type="url" required placeholder="https://github.com/…" /></label>
-              <label>下载链接<input name="downloadUrl" type="url" required placeholder="https://github.com/…/releases/download/…" /></label>
-              <div className="form-row"><label>文件名<small>（可选，仅展示）</small><input name="fileName" placeholder="app-v1.0-x64.zip" /></label><label>文件大小 (MB)<input name="fileSize" type="number" placeholder="0" /></label></div>
-              <button className="primary-button" disabled={busy}>添加到书架</button>
+              <div className="card-heading">
+                <div>
+                  <span className="eyebrow">{editingSoftwareId ? "EDIT PACKAGE" : "NEW PACKAGE"}</span>
+                  <h2>{editingSoftwareId ? "编辑软件" : "上传软件"}</h2>
+                </div>
+                <span className="step-badge">公开</span>
+              </div>
+              <label>软件名称<input name="name" required placeholder="例如：LocalSend" value={softwareDraft.name} onChange={(e) => setSoftwareDraft({ ...softwareDraft, name: e.target.value })} /></label>
+              <div className="form-row"><label>版本号<input name="version" placeholder="1.17.0" value={softwareDraft.version} onChange={(e) => setSoftwareDraft({ ...softwareDraft, version: e.target.value })} /></label><label>平台<select name="platform" value={softwareDraft.platform} onChange={(e) => setSoftwareDraft({ ...softwareDraft, platform: e.target.value })}><option>Windows</option><option>macOS</option><option>Linux</option><option>跨平台</option></select></label></div>
+              <label>一句话说明<textarea name="description" rows={3} placeholder="这个工具解决什么问题？" value={softwareDraft.description} onChange={(e) => setSoftwareDraft({ ...softwareDraft, description: e.target.value })} /></label>
+              <label>官方页面<input name="officialUrl" type="url" required placeholder="https://github.com/…" value={softwareDraft.officialUrl} onChange={(e) => setSoftwareDraft({ ...softwareDraft, officialUrl: e.target.value })} /></label>
+              <label>下载链接<input name="downloadUrl" type="url" required placeholder="https://github.com/…/releases/download/…" value={softwareDraft.downloadUrl} onChange={(e) => setSoftwareDraft({ ...softwareDraft, downloadUrl: e.target.value })} /></label>
+              <div className="form-row"><label>文件名<small>（可选，仅展示）</small><input name="fileName" placeholder="app-v1.0-x64.zip" value={softwareDraft.fileName} onChange={(e) => setSoftwareDraft({ ...softwareDraft, fileName: e.target.value })} /></label><label>文件大小 (MB)<input name="fileSize" type="number" placeholder="0" value={softwareDraft.fileSize || ""} onChange={(e) => setSoftwareDraft({ ...softwareDraft, fileSize: parseInt(e.target.value) || 0 })} /></label></div>
+              <div style={{ display: "flex", gap: 8 }}>
+                <button className="primary-button" disabled={busy} style={{ flex: 1 }}>{editingSoftwareId ? "保存修改" : "添加到书架"}</button>
+                {editingSoftwareId && <button type="button" className="ghost-button" onClick={cancelEdit}>取消</button>}
+              </div>
             </form>
             <div className="admin-card package-list">
               <div className="card-heading"><div><span className="eyebrow">ON THE SHELF</span><h2>已有软件</h2></div><span className="count-badge">{software.length}</span></div>
-              {software.length ? software.map((item) => <article key={item.id}><div className="package-icon">⌑</div><div><strong>{item.name}</strong><span>{item.version ? `v${item.version.replace(/^v/i, "")} · ` : ""}{item.platform}{item.fileSize ? ` · ${formatBytes(item.fileSize)}` : ""}</span>{item.fileName && <small>{item.fileName}</small>}</div><button onClick={() => deleteSoftware(item.id)}>删除</button></article>) : <div className="admin-empty"><span>⌑</span><p>还没有上传软件</p></div>}
+              {software.length ? software.map((item) => <article key={item.id}><div className="package-icon">⌑</div><div><strong>{item.name}</strong><span>{item.version ? `v${item.version.replace(/^v/i, "")} · ` : ""}{item.platform}{item.fileSize ? ` · ${formatBytes(item.fileSize)}` : ""}</span>{item.fileName && <small>{item.fileName}</small>}</div><div className="package-actions"><button onClick={() => editSoftware(item)}>编辑</button><button onClick={() => deleteSoftware(item.id)}>删除</button></div></article>) : <div className="admin-empty"><span>⌑</span><p>还没有上传软件</p></div>}
             </div>
           </div>
         ) : (

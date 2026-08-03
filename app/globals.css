@@ -247,6 +247,14 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
 .package-list span,.package-list small { color: var(--ash); font-size: 9px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .package-list button { border: 0; background: transparent; color: var(--coral); font-size: 9px; cursor: pointer; opacity: .8; }
 .package-list button:hover { opacity: 1; }
+.package-actions { display: flex; gap: 6px; }
+.package-actions button:first-child { color: var(--acid); }
+
+.ghost-button {
+  padding: 10px 16px; border: 1px solid var(--graphite); border-radius: var(--r-btn);
+  background: transparent; color: var(--fog); font-size: 11px; cursor: pointer;
+}
+.ghost-button:hover { border-color: var(--smoke); color: var(--mist); }
 
 .admin-empty { min-height: 230px; display: grid; place-content: center; justify-items: center; color: var(--ash); }
 .admin-empty > span { font-size: 36px; color: var(--graphite); }
