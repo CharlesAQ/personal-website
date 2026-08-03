@@ -91,6 +91,11 @@ export default function AdminPanel({ displayName, onSignOut }: { displayName: st
   function newEntry() {
     setSelectedId(null);
     setEntryDraft({ title: "", content: "", tags: "", mood: "平静", entryDate: today });
+    // Focus the title input after state update
+    setTimeout(() => {
+      const input = document.querySelector<HTMLInputElement>(".title-input");
+      input?.focus();
+    }, 0);
   }
 
   async function saveEntry(event: FormEvent) {
@@ -160,7 +165,7 @@ export default function AdminPanel({ displayName, onSignOut }: { displayName: st
         ) : (
           <div className="journal-layout">
             <aside className="entry-list admin-card">
-              <div className="entry-list-tools"><label><span>⌕</span><input value={query} onChange={(event) => setQuery(event.target.value)} onKeyDown={(event) => event.key === "Enter" && loadEntries(tab, query)} placeholder="搜索记录" /></label><button onClick={newEntry}>＋</button></div>
+              <div className="entry-list-tools"><label><span>⌕</span><input value={query} onChange={(event) => setQuery(event.target.value)} onKeyDown={(event) => event.key === "Enter" && loadEntries(tab, query)} placeholder="搜索记录" /></label><button type="button" onClick={newEntry}>＋</button></div>
               <div className="entry-scroll">
                 {entries.map((entry) => <button key={entry.id} className={selectedId === entry.id ? "selected" : ""} onClick={() => editEntry(entry)}><span>{entry.entryDate}</span><strong>{entry.title}</strong><small>{entry.tags || entry.content.slice(0, 38) || "还没有正文"}</small></button>)}
                 {!entries.length && <div className="admin-empty"><span>▤</span><p>写下第一条{tab === "dev" ? "开发记录" : "日记"}</p></div>}
