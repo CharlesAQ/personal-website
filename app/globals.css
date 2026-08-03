@@ -70,7 +70,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
 
 /* ── Hero ── */
 .hero {
-  max-width: 1280px; margin: 0 auto; padding: 120px 32px 80px;
+  max-width: 1280px; margin: 0 auto; padding: 84px 32px 60px;
   text-align: center;
 }
 .hero h1 {
@@ -82,7 +82,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
 
 /* ── Flip Clock ── */
 .flip-clock {
-  margin-top: 56px; display: grid; justify-items: center; gap: 14px;
+  margin-top: 44px; display: grid; justify-items: center; gap: 14px;
 }
 .flip-clock-digits {
   display: flex; align-items: center; gap: 10px;
@@ -111,8 +111,8 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
   color: #f5f5f5;
   font-variant-numeric: tabular-nums;
 }
-.flip-top span { bottom: 0; }
-.flip-bottom span { top: 0; }
+.flip-top span { top: 0; }
+.flip-bottom span { bottom: 0; }
 .flip-seam {
   position: absolute; left: 0; right: 0; top: 50%; height: 1px;
   background: rgba(0,0,0,.9); z-index: 3;
