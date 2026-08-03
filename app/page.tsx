@@ -40,11 +40,6 @@ export default function HomePage() {
         <p>
           把喜欢的工具和生活片段，安静地放在一起。
         </p>
-        <div className="hero-tags">
-          <span>开源软件</span>
-          <span>开发札记</span>
-          <span>私人日记</span>
-        </div>
       </section>
 
       {/* ── Software ── */}

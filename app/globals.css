@@ -77,11 +77,6 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
   letter-spacing: -.03em; color: var(--paper); line-height: 1.05;
 }
 .hero > p { max-width: 480px; margin: 0 auto; color: var(--fog); font-size: 16px; line-height: 1.7; }
-.hero-tags { display: flex; justify-content: center; gap: 8px; margin-top: 32px; }
-.hero-tags span {
-  padding: 6px 14px; border: 1px solid var(--graphite);
-  border-radius: var(--r-pill); font-size: 12px; color: var(--mist);
-}
 
 /* ── Page Section ── */
 .page-section { max-width: 1200px; margin: 0 auto; padding: 80px 32px; }
