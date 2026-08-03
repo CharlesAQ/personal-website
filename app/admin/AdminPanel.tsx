@@ -49,19 +49,30 @@ export default function AdminPanel({ displayName, onSignOut }: { displayName: st
   async function uploadSoftware(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setBusy(true); setNotice("正在添加…");
-    const form = new FormData(event.currentTarget);
+    const form = event.currentTarget;
+    const formData = new FormData(form);
     const payload: Record<string, unknown> = {};
-    form.forEach((value, key) => { payload[key] = value; });
+    formData.forEach((value, key) => { payload[key] = value; });
     const fileSize = parseInt(String(payload.fileSize ?? "0"), 10) || 0;
-    const response = await fetch("/api/software", {
-      method: "POST",
-      headers: { "content-type": "application/json" },
-      body: JSON.stringify({ ...payload, fileSize }),
-    });
-    const data = await response.json();
-    if (response.ok) { event.currentTarget.reset(); setNotice("软件已放上公开书架。"); await loadSoftware(); }
-    else setNotice(data.error || "添加失败。");
-    setBusy(false);
+    try {
+      const response = await fetch("/api/software", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ ...payload, fileSize }),
+      });
+      const data = await response.json();
+      if (response.ok) {
+        form.reset();
+        setNotice("软件已放上公开书架。");
+        await loadSoftware();
+      } else {
+        setNotice(data.error || "添加失败。");
+      }
+    } catch {
+      setNotice("网络错误，请重试。");
+    } finally {
+      setBusy(false);
+    }
   }
 
   async function deleteSoftware(id: number) {
