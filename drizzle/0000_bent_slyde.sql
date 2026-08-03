@@ -17,10 +17,8 @@ CREATE TABLE `software` (
 	`version` text DEFAULT '' NOT NULL,
 	`platform` text DEFAULT 'Windows' NOT NULL,
 	`official_url` text NOT NULL,
-	`file_name` text NOT NULL,
-	`file_key` text NOT NULL,
+	`download_url` text NOT NULL,
+	`file_name` text DEFAULT '' NOT NULL,
 	`file_size` integer DEFAULT 0 NOT NULL,
 	`created_at` text DEFAULT CURRENT_TIMESTAMP NOT NULL
 );
---> statement-breakpoint
-CREATE UNIQUE INDEX `software_file_key_unique` ON `software` (`file_key`);
