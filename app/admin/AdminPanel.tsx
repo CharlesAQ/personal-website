@@ -48,12 +48,19 @@ export default function AdminPanel({ displayName, signOutPath }: { displayName: 
 
   async function uploadSoftware(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    setBusy(true); setNotice("正在上传安装包…");
-    const form = event.currentTarget;
-    const response = await fetch("/api/software", { method: "POST", body: new FormData(form) });
+    setBusy(true); setNotice("正在添加…");
+    const form = new FormData(event.currentTarget);
+    const payload: Record<string, unknown> = {};
+    form.forEach((value, key) => { payload[key] = value; });
+    const fileSize = parseInt(String(payload.fileSize ?? "0"), 10) || 0;
+    const response = await fetch("/api/software", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ ...payload, fileSize }),
+    });
     const data = await response.json();
-    if (response.ok) { form.reset(); setNotice("软件已放上公开书架。"); await loadSoftware(); }
-    else setNotice(data.error || "上传失败。");
+    if (response.ok) { event.currentTarget.reset(); setNotice("软件已放上公开书架。"); await loadSoftware(); }
+    else setNotice(data.error || "添加失败。");
     setBusy(false);
   }
 
@@ -130,12 +137,13 @@ export default function AdminPanel({ displayName, signOutPath }: { displayName: 
               <div className="form-row"><label>版本号<input name="version" placeholder="1.17.0" /></label><label>平台<select name="platform" defaultValue="Windows"><option>Windows</option><option>macOS</option><option>Linux</option><option>跨平台</option></select></label></div>
               <label>一句话说明<textarea name="description" rows={3} placeholder="这个工具解决什么问题？" /></label>
               <label>官方页面<input name="officialUrl" type="url" required placeholder="https://github.com/…" /></label>
-              <label className="file-drop"><input name="file" type="file" required /><span className="upload-arrow">↑</span><strong>选择安装包</strong><small>最大 500 MB</small></label>
-              <button className="primary-button" disabled={busy}>上传并公开</button>
+              <label>下载链接<input name="downloadUrl" type="url" required placeholder="https://github.com/…/releases/download/…" /></label>
+              <div className="form-row"><label>文件名<small>（可选，仅展示）</small><input name="fileName" placeholder="app-v1.0-x64.zip" /></label><label>文件大小 (MB)<input name="fileSize" type="number" placeholder="0" /></label></div>
+              <button className="primary-button" disabled={busy}>添加到书架</button>
             </form>
             <div className="admin-card package-list">
               <div className="card-heading"><div><span className="eyebrow">ON THE SHELF</span><h2>已有软件</h2></div><span className="count-badge">{software.length}</span></div>
-              {software.length ? software.map((item) => <article key={item.id}><div className="package-icon">⌑</div><div><strong>{item.name}</strong><span>{item.version ? `v${item.version.replace(/^v/i, "")} · ` : ""}{item.platform} · {formatBytes(item.fileSize)}</span><small>{item.fileName}</small></div><button onClick={() => deleteSoftware(item.id)}>删除</button></article>) : <div className="admin-empty"><span>⌑</span><p>还没有上传软件</p></div>}
+              {software.length ? software.map((item) => <article key={item.id}><div className="package-icon">⌑</div><div><strong>{item.name}</strong><span>{item.version ? `v${item.version.replace(/^v/i, "")} · ` : ""}{item.platform}{item.fileSize ? ` · ${formatBytes(item.fileSize)}` : ""}</span>{item.fileName && <small>{item.fileName}</small>}</div><button onClick={() => deleteSoftware(item.id)}>删除</button></article>) : <div className="admin-empty"><span>⌑</span><p>还没有上传软件</p></div>}
             </div>
           </div>
         ) : (

@@ -8,8 +8,8 @@ export const software = sqliteTable("software", {
   version: text("version").notNull().default(""),
   platform: text("platform").notNull().default("Windows"),
   officialUrl: text("official_url").notNull(),
-  fileName: text("file_name").notNull(),
-  fileKey: text("file_key").notNull().unique(),
+  downloadUrl: text("download_url").notNull(),
+  fileName: text("file_name").notNull().default(""),
   fileSize: integer("file_size").notNull().default(0),
   createdAt: text("created_at").notNull().default(sql`CURRENT_TIMESTAMP`),
 });
