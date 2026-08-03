@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import type { SoftwareItem } from "./types";
 import { SoftwareGrid } from "./components/SoftwareGrid";
 import { BookmarksGrid } from "./components/BookmarksGrid";
+import FlipClock from "./components/FlipClock";
 
 type Bookmark = {
   id: number;
@@ -59,6 +60,7 @@ export default function HomePage() {
         <p>
           把喜欢的工具和生活片段，安静地放在一起。
         </p>
+        <FlipClock />
       </section>
 
       {/* ── Software ── */}
