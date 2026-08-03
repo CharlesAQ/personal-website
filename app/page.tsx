@@ -49,7 +49,7 @@ export default function HomePage() {
       <section id="about" className="page-section about-section">
         <div className="about-grid">
           <div className="about-orb">
-            <span>糯</span>
+            <img src="/avatar.png" alt="糯米的头像" />
           </div>
           <div>
             <span className="eyebrow">A SMALL PLACE ON THE WEB</span>

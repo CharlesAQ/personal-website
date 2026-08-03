@@ -177,10 +177,10 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
 .about-section { border-top: 1px solid var(--graphite); }
 .about-grid { display: grid; grid-template-columns: auto 1fr; gap: 40px; align-items: center; }
 .about-orb {
-  width: 100px; height: 100px; display: grid; place-items: center;
-  border: 1px solid rgba(228,242,34,.12); border-radius: 50%;
-  color: var(--acid); font-family: "STKaiti",serif; font-size: 36px;
+  width: 120px; height: 120px; border-radius: 50%; overflow: hidden;
+  border: 2px solid var(--graphite); flex-shrink: 0;
 }
+.about-orb img { width: 100%; height: 100%; object-fit: cover; display: block; }
 .about-grid h2 { margin: 8px 0 14px; font-size: 32px; font-weight: 510; letter-spacing: -.022em; color: var(--paper); }
 .about-grid p { max-width: 580px; color: var(--fog); font-size: 14px; line-height: 1.9; margin: 0; }
 
