@@ -14,7 +14,7 @@ function formatBytes(bytes: number) {
   return `${(bytes / 1024 ** index).toFixed(index > 1 ? 1 : 0)} ${["B", "KB", "MB", "GB"][index]}`;
 }
 
-export default function AdminPanel({ displayName, signOutPath }: { displayName: string; signOutPath: string }) {
+export default function AdminPanel({ displayName, onSignOut }: { displayName: string; onSignOut: () => void }) {
   const [tab, setTab] = useState<Tab>("software");
   const [software, setSoftware] = useState<SoftwareItem[]>([]);
   const [entries, setEntries] = useState<Entry[]>([]);
@@ -118,7 +118,7 @@ export default function AdminPanel({ displayName, signOutPath }: { displayName: 
           <button className={tab === "dev" ? "active" : ""} onClick={() => setTab("dev")}><span>⌘</span>开发日志</button>
           <button className={tab === "diary" ? "active" : ""} onClick={() => setTab("diary")}><span>✦</span>私人日记</button>
         </nav>
-        <div className="admin-account"><span className="avatar">糯</span><div><strong>{displayName}</strong><a href={signOutPath}>退出登录</a></div></div>
+        <div className="admin-account"><span className="avatar">糯</span><div><strong>{displayName}</strong><a href="#" onClick={(e) => { e.preventDefault(); onSignOut(); }}>退出登录</a></div></div>
       </aside>
 
       <section className="admin-workspace">
