@@ -1,5 +1,79 @@
-import Desktop from "./Desktop";
+"use client";
 
-export default function Home() {
-  return <Desktop />;
+import { useEffect, useState } from "react";
+import type { SoftwareItem } from "./types";
+import { SoftwareGrid } from "./components/SoftwareGrid";
+
+export default function HomePage() {
+  const [items, setItems] = useState<SoftwareItem[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetch("/api/software")
+      .then((r) => r.json())
+      .then((d) => setItems(d.software ?? []))
+      .catch(() => setItems([]))
+      .finally(() => setLoading(false));
+  }, []);
+
+  return (
+    <div className="page">
+      {/* ── Nav ── */}
+      <nav className="top-nav">
+        <div className="nav-inner">
+          <a href="/" className="nav-brand">
+            <span className="brand-dot" />
+            糯米的小窝
+          </a>
+          <div className="nav-links">
+            <a href="#software">软件库</a>
+            <a href="#about">关于</a>
+            <a href="/admin" className="nav-admin">管理</a>
+          </div>
+        </div>
+      </nav>
+
+      {/* ── Hero ── */}
+      <section className="hero">
+        <span className="eyebrow">NUOMI&apos;S PLACE</span>
+        <h1>糯米的小窝</h1>
+        <p>
+          把喜欢的工具和生活片段，安静地放在一起。
+        </p>
+        <div className="hero-tags">
+          <span>开源软件</span>
+          <span>开发札记</span>
+          <span>私人日记</span>
+        </div>
+      </section>
+
+      {/* ── Software ── */}
+      <SoftwareGrid items={items} loading={loading} />
+
+      {/* ── About ── */}
+      <section id="about" className="page-section about-section">
+        <div className="about-grid">
+          <div className="about-orb">
+            <span>糯</span>
+          </div>
+          <div>
+            <span className="eyebrow">A SMALL PLACE ON THE WEB</span>
+            <h2>关于小窝</h2>
+            <p>
+              这里不是工作台，也不是公开博客。它更像一张长期使用的书桌：左边放随手可取的软件，抽屉里收着开发记录和只属于自己的日记。
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* ── Footer ── */}
+      <footer className="page-footer">
+        <div className="footer-inner">
+          <span>糯米的小窝</span>
+          <span className="footer-dot">·</span>
+          <span>Built with ❤️</span>
+        </div>
+      </footer>
+    </div>
+  );
 }
