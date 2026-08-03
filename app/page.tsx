@@ -55,7 +55,7 @@ export default function HomePage() {
             <span className="eyebrow">A SMALL PLACE ON THE WEB</span>
             <h2>关于小窝</h2>
             <p>
-              这里不是工作台，也不是公开博客。它更像一张长期使用的书桌：左边放随手可取的软件，抽屉里收着开发记录和只属于自己的日记。
+              一个安静的个人角落——软件库随手可取，抽屉深处收着开发笔记和私人日记。不喧哗，不社交，只是糯米在互联网上的一张书桌。
             </p>
           </div>
         </div>
