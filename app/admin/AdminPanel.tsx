@@ -25,6 +25,7 @@ export default function AdminPanel({ displayName, onSignOut }: { displayName: st
   const [busy, setBusy] = useState(false);
   const [entryDraft, setEntryDraft] = useState({ title: "", content: "", tags: "", mood: "平静", entryDate: today });
   const [editingSoftwareId, setEditingSoftwareId] = useState<number | null>(null);
+  const [listOpen, setListOpen] = useState(false);
   const [softwareDraft, setSoftwareDraft] = useState({ name: "", description: "", version: "", platform: "Windows", officialUrl: "", downloadUrl: "", fileName: "", fileSize: 0 });
 
   const loadSoftware = useCallback(async () => {
@@ -201,16 +202,26 @@ export default function AdminPanel({ displayName, onSignOut }: { displayName: st
             </div>
           </div>
         ) : (
-          <div className="journal-layout">
-            <aside className="entry-list admin-card">
-              <div className="entry-list-tools"><label><span>⌕</span><input value={query} onChange={(event) => setQuery(event.target.value)} onKeyDown={(event) => event.key === "Enter" && loadEntries(tab, query)} placeholder="搜索记录" /></label><button type="button" onClick={newEntry}>＋</button></div>
-              <div className="entry-scroll">
-                {entries.map((entry) => <button key={entry.id} className={selectedId === entry.id ? "selected" : ""} onClick={() => editEntry(entry)}><span>{entry.entryDate}</span><strong>{entry.title}</strong><small>{entry.tags || entry.content.slice(0, 38) || "还没有正文"}</small></button>)}
-                {!entries.length && <div className="admin-empty"><span>▤</span><p>写下第一条{tab === "dev" ? "开发记录" : "日记"}</p></div>}
+          <div className="journal-wrap">
+            {/* 顶部工具栏 */}
+            <div className="journal-topbar">
+              <div className="journal-topbar-left">
+                <button type="button" className="list-toggle" onClick={() => setListOpen(!listOpen)} aria-label="记录列表">
+                  <span className="hamburger"><i /><i /><i /></span>
+                  <span className="list-toggle-text">{listOpen ? "收起列表" : "记录列表"}</span>
+                  <span className="list-count">{entries.length}</span>
+                </button>
+                <span className="journal-mode">{selectedId ? "正在编辑" : "新建记录"}</span>
               </div>
-            </aside>
-            <form className="editor admin-card" onSubmit={saveEntry}>
-              <div className="editor-toolbar"><span>{selectedId ? "正在编辑" : "新建记录"}</span><div>{selectedId && <button type="button" className="danger-text" onClick={deleteEntry}>删除</button>}<button className="primary-button" disabled={busy}>保存</button></div></div>
+              <div className="journal-topbar-actions">
+                <button type="button" className="ghost-button" onClick={newEntry}>＋ 新建</button>
+                {selectedId && <button type="button" className="danger-text" onClick={deleteEntry}>删除</button>}
+                <button className="primary-button" disabled={busy} onClick={(e) => { e.preventDefault(); (document.getElementById('journal-editor-form') as HTMLFormElement | null)?.requestSubmit(); }}>保存</button>
+              </div>
+            </div>
+
+            {/* 满宽编辑器 */}
+            <form id="journal-editor-form" className="editor admin-card" onSubmit={saveEntry}>
               <input className="title-input" value={entryDraft.title} onChange={(event) => setEntryDraft({ ...entryDraft, title: event.target.value })} placeholder={tab === "dev" ? "这次解决了什么？" : "今天发生了什么？"} required />
               <div className="editor-meta"><label>日期<input type="date" value={entryDraft.entryDate} onChange={(event) => setEntryDraft({ ...entryDraft, entryDate: event.target.value })} /></label><label>心情<select value={entryDraft.mood} onChange={(event) => setEntryDraft({ ...entryDraft, mood: event.target.value })}><option>平静</option><option>开心</option><option>专注</option><option>疲惫</option><option>有灵感</option></select></label><label>标签<input value={entryDraft.tags} onChange={(event) => setEntryDraft({ ...entryDraft, tags: event.target.value })} placeholder="用逗号分隔" /></label></div>
               <div className="content-editor-wrapper">
@@ -221,6 +232,23 @@ export default function AdminPanel({ displayName, onSignOut }: { displayName: st
                 />
               </div>
             </form>
+
+            {/* 抽屉列表 */}
+            {listOpen && (
+              <>
+                <div className="drawer-backdrop" onClick={() => setListOpen(false)} />
+                <aside className="entry-drawer admin-card">
+                  <div className="entry-list-tools">
+                    <label><span>⌕</span><input value={query} onChange={(event) => setQuery(event.target.value)} onKeyDown={(event) => event.key === "Enter" && loadEntries(tab, query)} placeholder="搜索记录" /></label>
+                    <button type="button" className="drawer-close" onClick={() => setListOpen(false)} aria-label="关闭">×</button>
+                  </div>
+                  <div className="entry-scroll">
+                    {entries.map((entry) => <button key={entry.id} className={selectedId === entry.id ? "selected" : ""} onClick={() => { editEntry(entry); setListOpen(false); }}><span>{entry.entryDate}</span><strong>{entry.title}</strong><small>{entry.tags || entry.content.replace(/<[^>]+>/g, "").slice(0, 38) || "还没有正文"}</small></button>)}
+                    {!entries.length && <div className="admin-empty"><span>▤</span><p>写下第一条{tab === "dev" ? "开发记录" : "日记"}</p></div>}
+                  </div>
+                </aside>
+              </>
+            )}
           </div>
         )}
       </section>

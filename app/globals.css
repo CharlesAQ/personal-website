@@ -353,23 +353,62 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
 .admin-empty > span { font-size: 36px; color: var(--hl); }
 .admin-empty p { font-size: 12px; }
 
-/* ── Journal ── */
-.journal-layout { height: calc(100dvh - 150px); min-height: 580px; display: grid; grid-template-columns: 300px 1fr; gap: 20px; }
-.entry-list { min-height: 0; padding: 0; overflow: hidden; }
-.entry-list-tools { display: flex; gap: 8px; padding: 0 0 14px; border-bottom: 1px solid var(--hl); }
+/* ── Journal (drawer layout) ── */
+.journal-wrap { display: flex; flex-direction: column; gap: 16px; position: relative; }
+
+.journal-topbar {
+  display: flex; justify-content: space-between; align-items: center;
+  min-height: 48px;
+}
+.journal-topbar-left { display: flex; align-items: center; gap: 12px; }
+.list-toggle {
+  display: flex; align-items: center; gap: 10px;
+  height: 38px; padding: 0 16px; border: 0; border-radius: var(--r-pill);
+  background: var(--pw); color: var(--ik); font-size: 13px; font-weight: 500;
+  box-shadow: var(--card-shadow); cursor: pointer; transition: .12s;
+}
+.list-toggle:hover { background: var(--surface-alt); }
+.hamburger { display: grid; gap: 3px; }
+.hamburger i { display: block; width: 14px; height: 2px; background: var(--ik); border-radius: 1px; }
+.list-count {
+  min-width: 22px; height: 22px; padding: 0 6px; display: grid; place-items: center;
+  border-radius: var(--r-pill); background: var(--cv); color: var(--mg);
+  font-size: 11px; font-weight: 500;
+}
+.journal-mode { font-size: 13px; font-weight: 600; color: var(--ik); }
+.journal-topbar-actions { display: flex; align-items: center; gap: 8px; }
+
+.editor { min-width: 0; display: flex; flex-direction: column; overflow: hidden; }
+
+/* ── Drawer ── */
+.drawer-backdrop {
+  position: fixed; inset: 0; z-index: 40;
+  background: rgba(10,10,10,.3); backdrop-filter: blur(2px);
+  animation: fade-in .15s ease-out;
+}
+@keyframes fade-in { from { opacity: 0; } }
+.entry-drawer {
+  position: fixed; top: 0; right: 0; z-index: 41;
+  width: 340px; height: 100dvh; padding: 20px 16px;
+  border-radius: 0; border-left: 1px solid var(--hl);
+  display: flex; flex-direction: column; overflow: hidden;
+  animation: drawer-in .22s cubic-bezier(.2,.8,.2,1);
+}
+@keyframes drawer-in { from { transform: translateX(40px); opacity: 0; } }
+.entry-list-tools { display: flex; gap: 8px; padding-bottom: 14px; border-bottom: 1px solid var(--hl); }
 .entry-list-tools label {
   flex: 1; height: 38px; display: flex; align-items: center; gap: 8px; padding: 0 14px;
   border-radius: var(--r-pill); background: var(--cv); color: var(--mg);
 }
 .entry-list-tools input { width: 100%; border: 0; outline: 0; background: transparent; font-size: 12px; color: var(--ik); }
 .entry-list-tools input::placeholder { color: var(--mg); }
-.entry-list-tools button {
+.entry-list-tools .drawer-close {
   width: 38px; height: 38px; border: 0; border-radius: var(--r-pill);
-  color: #fafafa; background: var(--ik); font-size: 18px; cursor: pointer; transition: .12s;
+  background: var(--cv); color: var(--ik); font-size: 16px; cursor: pointer; transition: .12s;
 }
-.entry-list-tools button:hover { background: var(--is); }
+.entry-list-tools .drawer-close:hover { background: var(--hl); }
 
-.entry-scroll { height: calc(100% - 60px); overflow: auto; padding: 8px 0; }
+.entry-scroll { flex: 1; overflow-y: auto; padding: 8px 0; }
 .entry-scroll > button {
   width: 100%; display: grid; gap: 5px; padding: 12px 14px;
   border: 0; border-radius: var(--r-pill); background: transparent; text-align: left; cursor: pointer;
@@ -382,13 +421,6 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
 .entry-scroll strong { font-size: 13px; font-weight: 600; color: var(--ik); }
 .entry-scroll small { color: var(--mg); font-size: 11px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
-.editor { min-width: 0; display: flex; flex-direction: column; overflow: hidden; }
-.editor-toolbar {
-  min-height: 58px; padding: 12px 18px; display: flex; align-items: center; justify-content: space-between;
-  border-bottom: 1px solid var(--hl); color: var(--mg); font-size: 12px;
-}
-.editor-toolbar > div { display: flex; gap: 8px; }
-.editor-toolbar .primary-button { height: 32px; padding: 0 14px; }
 .title-input {
   margin: 25px 28px 12px; padding: 0; border: 0; outline: 0; background: transparent;
   font-size: 28px; font-weight: 600; letter-spacing: -.025em; color: var(--ik);
@@ -493,8 +525,6 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
   .admin-sidebar nav button { font-size: 0; }
   .admin-workspace { padding: 28px 20px 45px; }
   .software-admin-layout { grid-template-columns: 1fr; }
-  .journal-layout { height: auto; grid-template-columns: 1fr; }
-  .entry-list { height: 280px; }
   .editor { min-height: 580px; }
 }
 
