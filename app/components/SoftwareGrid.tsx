@@ -1,16 +1,18 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import type { SoftwareItem } from "../types";
 import { formatBytes } from "../lib/format";
+import PixelCard from "./PixelCard/PixelCard";
 
 type SoftwareGridProps = {
   items: SoftwareItem[];
   loading: boolean;
 };
 
+const PIXEL_COLORS = "#d4d4d4,#a3a3a3,#737373";
+
 export function SoftwareGrid({ items, loading }: SoftwareGridProps) {
-  const [query, setQuery] = useState("");
   const [platform, setPlatform] = useState("全部");
 
   const platforms = useMemo(
@@ -21,11 +23,9 @@ export function SoftwareGrid({ items, loading }: SoftwareGridProps) {
   const visibleItems = useMemo(
     () =>
       items.filter((item) => {
-        const matchesPlatform = platform === "全部" || item.platform === platform;
-        const haystack = `${item.name} ${item.description} ${item.version}`.toLowerCase();
-        return matchesPlatform && haystack.includes(query.trim().toLowerCase());
+        return platform === "全部" || item.platform === platform;
       }),
-    [items, platform, query],
+    [items, platform],
   );
 
   return (
@@ -34,17 +34,7 @@ export function SoftwareGrid({ items, loading }: SoftwareGridProps) {
         <div>
           <span className="eyebrow">SOFTWARE SHELF</span>
           <h2>软件库</h2>
-          <p>免去反复翻找 Release 页的麻烦。</p>
         </div>
-        <label className="search-box">
-          <span>⌕</span>
-          <input
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            placeholder="搜索软件…"
-            aria-label="搜索软件"
-          />
-        </label>
       </div>
 
       <div className="platform-filters">
@@ -61,50 +51,39 @@ export function SoftwareGrid({ items, loading }: SoftwareGridProps) {
 
       <div className="software-meta">
         <span>{visibleItems.length} 个收藏</span>
-        <span>公开访问 · 随时下载</span>
       </div>
 
-      <div className="software-grid">
+      <div className="tile-grid">
         {loading &&
-          Array.from({ length: 3 }).map((_, i) => (
-            <div className="software-card loading-card" key={i} />
+          Array.from({ length: 6 }).map((_, i) => (
+            <div className="tile-card loading-card" key={i} />
           ))}
 
         {!loading &&
           visibleItems.map((item) => (
-            <article className="software-card" key={item.id}>
-              <div className="software-icon">
+            <PixelCard key={item.id} colors={PIXEL_COLORS} gap={5} speed={40} className="tile-card">
+              <div className="tile-icon">
                 <span className="file-glyph">⌑</span>
               </div>
-              <div className="software-body">
-                <div className="software-title">
-                  <h3>{item.name}</h3>
-                  {item.version && <span>v{item.version.replace(/^v/i, "")}</span>}
-                </div>
-                <p>{item.description || "糯米收藏的开源小工具。"}</p>
-                <div className="software-stats">
-                  <span>{item.platform}</span>
-                  <span>{formatBytes(item.fileSize)}</span>
-                </div>
+              <div className="tile-name">{item.name}</div>
+              {item.version && <div className="tile-version">v{item.version.replace(/^v/i, "")}</div>}
+              <div className="tile-stats">
+                <span>{item.platform}</span>
+                <span>{formatBytes(item.fileSize)}</span>
               </div>
-              <div className="software-actions">
-                <a className="primary-button" href={`/api/software/${item.id}/download`}>
-                  下载
-                </a>
-                <a className="ghost-link" href={item.officialUrl} target="_blank" rel="noreferrer">
-                  官方页面 ↗
-                </a>
-              </div>
-            </article>
+              <a className="tile-download" href={`/api/software/${item.id}/download`}>
+                下载
+              </a>
+            </PixelCard>
           ))}
 
         {!loading && visibleItems.length === 0 && (
-          <div className="empty-state">
+          <div className="empty-state tile-empty">
             <div className="empty-icon">⌑</div>
             <h3>{items.length ? "没有匹配的软件" : "软件架还是空的"}</h3>
             <p>
               {items.length
-                ? "换个关键词，或查看全部平台。"
+                ? "换个平台看看。"
                 : "管理员添加第一个软件后，它会出现在这里。"}
             </p>
           </div>
