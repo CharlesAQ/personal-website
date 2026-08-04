@@ -44,21 +44,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
 }
 
 /* ── Page Layout ── */
-.page { min-height: 100dvh; position: relative; }
-
-/* ── 全页 PixelBlast 背景 ── */
-.page-bg {
-  position: fixed; inset: 0; z-index: 0;
-}
-/* 内容层点击穿透到背景，只恢复可交互元素 */
-.page > nav, .page > section, .page > footer {
-  position: relative; z-index: 1;
-  pointer-events: none;
-}
-.page a, .page button, .page input, .page textarea, .page select, .page label,
-.page .software-card, .page .bookmark-card, .page .particle-text {
-  pointer-events: auto;
-}
+.page { min-height: 100dvh; }
 
 /* ── Nav ── */
 .top-nav {

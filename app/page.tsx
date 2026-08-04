@@ -6,7 +6,6 @@ import { SoftwareGrid } from "./components/SoftwareGrid";
 import { BookmarksGrid } from "./components/BookmarksGrid";
 import FlipClock from "./components/FlipClock";
 import ParticleText from "./components/ParticleText/ParticleText";
-import PixelBlast from "./components/PixelBlast/PixelBlast";
 
 type Bookmark = {
   id: number;
@@ -39,21 +38,6 @@ export default function HomePage() {
 
   return (
     <div className="page">
-      {/* 全页像素波纹背景 */}
-      <div className="page-bg" aria-hidden="true">
-        <PixelBlast
-          variant="square"
-          color="#0a0a0a"
-          pixelSize={3}
-          patternScale={1.5}
-          patternDensity={2}
-          enableRipples
-          rippleIntensityScale={2}
-          rippleSpeed={0.5}
-          edgeFade={0.4}
-          speed={1}
-        />
-      </div>
       {/* ── Nav ── */}
       <nav className="top-nav">
         <div className="nav-inner">
