@@ -83,9 +83,6 @@ export function BookmarksGrid({ items, loading }: { items: Bookmark[]; loading: 
                 </div>
                 <div className="tile-name">{item.name}</div>
                 <div className="tile-version">{item.category}</div>
-                <div className="tile-stats">
-                  <span>{item.url.replace(/^https?:\/\//, "").replace(/\/$/, "")}</span>
-                </div>
               </PixelCard>
             </a>
           ))}
