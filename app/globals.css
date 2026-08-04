@@ -172,7 +172,12 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
 .tile-card {
   padding: 14px 10px 12px; border: 1px solid var(--hairline); border-radius: 16px;
   background: var(--paper); box-shadow: var(--card-shadow);
-  display: grid; justify-items: center; align-content: start; gap: 3px;
+  display: grid !important;
+  grid-template-rows: auto;
+  justify-items: center !important;
+  align-items: start !important;
+  align-content: start !important;
+  gap: 3px;
   text-align: center; min-height: 118px; cursor: default;
   transition: border-color .15s, box-shadow .15s;
 }

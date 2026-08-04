@@ -23,6 +23,13 @@ function favicon(url: string) {
   }
 }
 
+function BookmarkIcon({ url }: { url: string }) {
+  const [failed, setFailed] = useState(false);
+  const icon = favicon(url);
+  if (!icon || failed) return <span>⌁</span>;
+  return <img src={icon} alt="" onError={() => setFailed(true)} />;
+}
+
 export function BookmarksGrid({ items, loading }: { items: Bookmark[]; loading: boolean }) {
   const [category, setCategory] = useState("全部");
 
@@ -72,11 +79,7 @@ export function BookmarksGrid({ items, loading }: { items: Bookmark[]; loading: 
             <a key={item.id} href={item.url} target="_blank" rel="noreferrer" className="tile-link">
               <PixelCard colors={PIXEL_COLORS} gap={5} speed={40} className="tile-card">
                 <div className="tile-icon tile-favicon">
-                  {favicon(item.url) ? (
-                    <img src={favicon(item.url)!} alt="" width={28} height={28} />
-                  ) : (
-                    <span>⌁</span>
-                  )}
+                  <BookmarkIcon url={item.url} />
                 </div>
                 <div className="tile-name">{item.name}</div>
                 <div className="tile-version">{item.category}</div>
