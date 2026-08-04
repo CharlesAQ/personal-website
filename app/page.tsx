@@ -6,6 +6,7 @@ import { SoftwareGrid } from "./components/SoftwareGrid";
 import { BookmarksGrid } from "./components/BookmarksGrid";
 import FlipClock from "./components/FlipClock";
 import ParticleText from "./components/ParticleText/ParticleText";
+import Noise from "./components/Noise/Noise";
 
 type Bookmark = {
   id: number;
@@ -38,6 +39,10 @@ export default function HomePage() {
 
   return (
     <div className="page">
+      {/* 全屏噪点质感 */}
+      <div className="noise-fixed">
+        <Noise patternAlpha={20} />
+      </div>
       {/* ── Nav ── */}
       <nav className="top-nav">
         <div className="nav-inner">
