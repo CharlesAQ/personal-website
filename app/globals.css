@@ -46,16 +46,6 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
 /* ── Page Layout ── */
 .page { min-height: 100dvh; }
 
-/* ── Noise Overlay ── */
-.noise-fixed {
-  position: fixed; inset: 0; z-index: 60;
-  pointer-events: none;
-}
-.noise-fixed canvas {
-  width: 100vw !important;
-  height: 100vh !important;
-}
-
 /* ── Nav ── */
 .top-nav {
   position: sticky; top: 0; z-index: 10;
