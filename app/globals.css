@@ -36,10 +36,6 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
   outline: 2px solid var(--ink); outline-offset: 2px;
 }
 
-/* TargetCursor 全局隐藏光标后，恢复交互元素的可视光标 */
-input, textarea, select { cursor: text !important; }
-a, button, label, [role="button"] { cursor: pointer !important; }
-
 /* ── Typography ── */
 .eyebrow {
   font-family: 'Berkeley Mono', ui-monospace, monospace;

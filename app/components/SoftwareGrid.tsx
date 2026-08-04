@@ -72,7 +72,7 @@ export function SoftwareGrid({ items, loading }: SoftwareGridProps) {
 
         {!loading &&
           visibleItems.map((item) => (
-            <article className="software-card cursor-target" key={item.id}>
+            <article className="software-card" key={item.id}>
               <div className="software-icon">
                 <span className="file-glyph">⌑</span>
               </div>
