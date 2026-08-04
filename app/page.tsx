@@ -5,6 +5,7 @@ import type { SoftwareItem } from "./types";
 import { SoftwareGrid } from "./components/SoftwareGrid";
 import { BookmarksGrid } from "./components/BookmarksGrid";
 import FlipClock from "./components/FlipClock";
+import ParticleText from "./components/ParticleText/ParticleText";
 
 type Bookmark = {
   id: number;
@@ -56,7 +57,19 @@ export default function HomePage() {
       {/* ── Hero ── */}
       <section className="hero">
         <span className="eyebrow">NUOMI&apos;S PLACE</span>
-        <h1>糯米的小窝</h1>
+        <ParticleText
+          text="糯米的小窝"
+          color="#0a0a0a"
+          highlightColor="#737373"
+          particleSize={2}
+          density={4}
+          fontSize="clamp(48px, 7vw, 80px)"
+          fontWeight={600}
+          fontFamily="'PingFang SC', 'Microsoft YaHei', system-ui, sans-serif"
+          glow={false}
+          trigger="mount"
+          style={{ height: 120, margin: "4px auto 0" }}
+        />
         <p>
           把喜欢的工具和生活片段，安静地放在一起。
         </p>
