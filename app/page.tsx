@@ -61,16 +61,16 @@ export default function HomePage() {
           text="糯米的小窝"
           color="#0a0a0a"
           highlightColor="#737373"
-          particleSize={2}
+          particleSize={2.5}
           density={4}
           fontSize="clamp(48px, 7vw, 80px)"
           fontWeight={600}
           fontFamily="'PingFang SC', 'Microsoft YaHei', system-ui, sans-serif"
           glow={false}
-          trigger="hover"
-          pointerRepel={70}
-          repelRadius={160}
-          idleDrift={1.2}
+          trigger="mount"
+          pointerRepel={150}
+          repelRadius={220}
+          idleDrift={1.5}
           style={{ height: 120, minHeight: 120, margin: "4px auto 0" }}
         />
         <p>
