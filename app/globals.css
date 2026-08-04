@@ -167,7 +167,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
 
 /* ── Tile Grid (小卡片) ── */
 .tile-grid {
-  display: grid; grid-template-columns: repeat(8, 1fr); gap: 10px;
+  display: grid; grid-template-columns: repeat(8, minmax(0, 1fr)); gap: 10px;
 }
 .tile-card {
   padding: 14px 10px 12px; border: 1px solid var(--hairline); border-radius: 16px;
@@ -198,6 +198,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
 .tile-stats span {
   color: var(--ink-soft); font-size: 8px; font-weight: 500; background: var(--canvas);
   padding: 2px 5px; border-radius: var(--r-btn);
+  max-width: 100%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
 }
 .tile-download {
   margin-top: 6px; padding: 4px 12px; border-radius: var(--r-btn);
@@ -568,7 +569,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
   .hero { padding: 80px 24px 60px; }
   .page-section { padding: 60px 24px; }
   .section-header { flex-direction: column; align-items: flex-start; }
-  .tile-grid { grid-template-columns: repeat(5, 1fr); }
+  .tile-grid { grid-template-columns: repeat(5, minmax(0, 1fr)); }
   .about-grid { grid-template-columns: 1fr; gap: 24px; text-align: center; }
   .about-orb { margin: 0 auto; }
   .admin-page { grid-template-columns: 1fr; }
@@ -588,7 +589,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
   .flip-clock-digits { gap: 6px; padding: 12px 14px; }
   .flip-colon { padding: 18px 0; gap: 12px; }
   .flip-colon i { width: 6px; height: 6px; }
-  .tile-grid { grid-template-columns: repeat(3, 1fr); }
+  .tile-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   .tile-card { min-height: 110px; }
   .form-row,.editor-meta { grid-template-columns: 1fr; }
   .title-input { font-size: 23px; }
