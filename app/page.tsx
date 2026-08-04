@@ -71,7 +71,7 @@ export default function HomePage() {
           pointerRepel={70}
           repelRadius={160}
           idleDrift={1.2}
-          style={{ height: 120, minHeight: 120, width: "fit-content", margin: "4px auto 0" }}
+          style={{ height: 120, minHeight: 120, margin: "4px auto 0" }}
         />
         <p>
           把喜欢的工具和生活片段，安静地放在一起。
