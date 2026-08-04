@@ -63,15 +63,15 @@ export default function HomePage() {
           highlightColor="#737373"
           particleSize={2.5}
           density={4}
-          fontSize="clamp(48px, 7vw, 80px)"
+          fontSize="clamp(52px, 7.5vw, 88px)"
           fontWeight={600}
           fontFamily="'PingFang SC', 'Microsoft YaHei', system-ui, sans-serif"
           glow={false}
           trigger="mount"
-          pointerRepel={150}
-          repelRadius={220}
-          idleDrift={1.5}
-          style={{ height: 120, minHeight: 120, margin: "4px auto 0" }}
+          pointerRepel={70}
+          repelRadius={140}
+          idleDrift={1.2}
+          style={{ height: 136, minHeight: 136, margin: "4px auto 0" }}
         />
         <p>
           把喜欢的工具和生活片段，安静地放在一起。
