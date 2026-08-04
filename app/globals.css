@@ -73,6 +73,13 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
   max-width: 1280px; margin: 0 auto; padding: 84px 32px 60px;
   text-align: center;
 }
+.hero-with-bg { position: relative; overflow: hidden; }
+.hero-bg {
+  position: absolute; inset: 0; z-index: 0;
+}
+.hero-inner { position: relative; z-index: 1; pointer-events: none; }
+/* 粒子标题需要鼠标交互，单独恢复 */
+.hero-inner .particle-text { pointer-events: auto; }
 .hero h1 { margin: 0; font-family: 'PingFang SC', 'Microsoft YaHei', system-ui, sans-serif; }
 .hero > p { max-width: 480px; margin: 0 auto; color: var(--mid-gray); font-size: 16px; line-height: 1.5; }
 

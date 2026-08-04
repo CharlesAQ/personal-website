@@ -6,6 +6,7 @@ import { SoftwareGrid } from "./components/SoftwareGrid";
 import { BookmarksGrid } from "./components/BookmarksGrid";
 import FlipClock from "./components/FlipClock";
 import ParticleText from "./components/ParticleText/ParticleText";
+import PixelBlast from "./components/PixelBlast/PixelBlast";
 
 type Bookmark = {
   id: number;
@@ -55,28 +56,42 @@ export default function HomePage() {
       </nav>
 
       {/* ── Hero ── */}
-      <section className="hero">
-        <span className="eyebrow">NUOMI&apos;S PLACE</span>
-        <ParticleText
-          text="糯米的小窝"
-          color="#0a0a0a"
-          highlightColor="#737373"
-          particleSize={2.5}
-          density={4}
-          fontSize="clamp(52px, 7.5vw, 88px)"
-          fontWeight={600}
-          fontFamily="'PingFang SC', 'Microsoft YaHei', system-ui, sans-serif"
-          glow={false}
-          trigger="mount"
-          pointerRepel={70}
-          repelRadius={140}
-          idleDrift={1.2}
-          style={{ height: 136, minHeight: 136, margin: "4px auto 0" }}
-        />
-        <p>
-          把喜欢的工具和生活片段，安静地放在一起。
-        </p>
-        <FlipClock />
+      <section className="hero hero-with-bg">
+        <div className="hero-bg" aria-hidden="true">
+          <PixelBlast
+            variant="square"
+            color="#0a0a0a"
+            pixelSize={3}
+            patternScale={2}
+            patternDensity={0.6}
+            enableRipples
+            rippleIntensityScale={1}
+            edgeFade={0.6}
+          />
+        </div>
+        <div className="hero-inner">
+          <span className="eyebrow">NUOMI&apos;S PLACE</span>
+          <ParticleText
+            text="糯米的小窝"
+            color="#0a0a0a"
+            highlightColor="#737373"
+            particleSize={2.5}
+            density={4}
+            fontSize="clamp(52px, 7.5vw, 88px)"
+            fontWeight={600}
+            fontFamily="'PingFang SC', 'Microsoft YaHei', system-ui, sans-serif"
+            glow={false}
+            trigger="mount"
+            pointerRepel={70}
+            repelRadius={140}
+            idleDrift={1.2}
+            style={{ height: 136, minHeight: 136, margin: "4px auto 0" }}
+          />
+          <p>
+            把喜欢的工具和生活片段，安静地放在一起。
+          </p>
+          <FlipClock />
+        </div>
       </section>
 
       {/* ── Software ── */}
