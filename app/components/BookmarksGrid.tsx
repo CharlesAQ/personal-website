@@ -84,7 +84,7 @@ export function BookmarksGrid({ items, loading }: { items: Bookmark[]; loading: 
           visibleItems.map((item) => (
             <a
               key={item.id}
-              className="bookmark-card"
+              className="bookmark-card cursor-target"
               href={item.url}
               target="_blank"
               rel="noreferrer"
