@@ -62,11 +62,13 @@ export default function HomePage() {
             variant="square"
             color="#0a0a0a"
             pixelSize={3}
-            patternScale={2}
-            patternDensity={0.6}
+            patternScale={1.5}
+            patternDensity={2}
             enableRipples
-            rippleIntensityScale={1}
-            edgeFade={0.6}
+            rippleIntensityScale={2}
+            rippleSpeed={0.5}
+            edgeFade={0.4}
+            speed={1}
           />
         </div>
         <div className="hero-inner">
