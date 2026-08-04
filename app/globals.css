@@ -167,41 +167,41 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
 
 /* ── Tile Grid (小卡片) ── */
 .tile-grid {
-  display: grid; grid-template-columns: repeat(6, 1fr); gap: 12px;
+  display: grid; grid-template-columns: repeat(8, 1fr); gap: 10px;
 }
 .tile-card {
-  padding: 16px 12px 14px; border: 1px solid var(--hairline); border-radius: var(--r-card);
+  padding: 14px 10px 12px; border: 1px solid var(--hairline); border-radius: 16px;
   background: var(--paper); box-shadow: var(--card-shadow);
-  display: grid; justify-items: center; align-content: start; gap: 4px;
-  text-align: center; min-height: 138px; cursor: default;
+  display: grid; justify-items: center; align-content: start; gap: 3px;
+  text-align: center; min-height: 118px; cursor: default;
   transition: border-color .15s, box-shadow .15s;
 }
 .tile-card:hover { border-color: #d4d4d4; box-shadow: 0 0 0 1px rgba(23,23,23,.05), 0 6px 16px rgba(0,0,0,.08); }
-.tile-icon { width: 42px; height: 42px; margin-bottom: 6px; }
+.tile-icon { width: 36px; height: 36px; margin-bottom: 5px; }
 .file-glyph {
-  width: 42px; height: 42px; display: grid; place-items: center;
-  border-radius: var(--r-nested); color: var(--ink); font-size: 20px;
+  width: 36px; height: 36px; display: grid; place-items: center;
+  border-radius: 10px; color: var(--ink); font-size: 17px;
   background: var(--canvas);
 }
 .tile-favicon {
-  width: 42px; height: 42px; display: grid; place-items: center;
-  border-radius: var(--r-nested); background: var(--canvas); overflow: hidden;
+  width: 36px; height: 36px; display: grid; place-items: center;
+  border-radius: 10px; background: var(--canvas); overflow: hidden;
 }
-.tile-favicon img { width: 22px; height: 22px; display: block; }
-.tile-favicon span { color: var(--mid-gray); font-size: 16px; }
+.tile-favicon img { width: 20px; height: 20px; display: block; }
+.tile-favicon span { color: var(--mid-gray); font-size: 14px; }
 .tile-name {
-  font-size: 13px; font-weight: 600; color: var(--ink);
+  font-size: 12px; font-weight: 600; color: var(--ink);
   max-width: 100%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
 }
-.tile-version { font-size: 10px; color: var(--mid-gray); }
-.tile-stats { display: flex; gap: 4px; margin-top: 2px; flex-wrap: wrap; justify-content: center; }
+.tile-version { font-size: 9px; color: var(--mid-gray); }
+.tile-stats { display: flex; gap: 3px; margin-top: 2px; flex-wrap: wrap; justify-content: center; }
 .tile-stats span {
-  color: var(--ink-soft); font-size: 9px; font-weight: 500; background: var(--canvas);
-  padding: 2px 6px; border-radius: var(--r-btn);
+  color: var(--ink-soft); font-size: 8px; font-weight: 500; background: var(--canvas);
+  padding: 2px 5px; border-radius: var(--r-btn);
 }
 .tile-download {
-  margin-top: 8px; padding: 5px 14px; border-radius: var(--r-btn);
-  background: var(--ink); color: #fafafa; font-size: 11px; font-weight: 500;
+  margin-top: 6px; padding: 4px 12px; border-radius: var(--r-btn);
+  background: var(--ink); color: #fafafa; font-size: 10px; font-weight: 500;
   transition: background .15s;
 }
 .tile-download:hover { background: var(--ink-soft); }
@@ -568,7 +568,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
   .hero { padding: 80px 24px 60px; }
   .page-section { padding: 60px 24px; }
   .section-header { flex-direction: column; align-items: flex-start; }
-  .tile-grid { grid-template-columns: repeat(4, 1fr); }
+  .tile-grid { grid-template-columns: repeat(5, 1fr); }
   .about-grid { grid-template-columns: 1fr; gap: 24px; text-align: center; }
   .about-orb { margin: 0 auto; }
   .admin-page { grid-template-columns: 1fr; }
@@ -589,7 +589,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
   .flip-colon { padding: 18px 0; gap: 12px; }
   .flip-colon i { width: 6px; height: 6px; }
   .tile-grid { grid-template-columns: repeat(3, 1fr); }
-  .tile-card { min-height: 130px; }
+  .tile-card { min-height: 110px; }
   .form-row,.editor-meta { grid-template-columns: 1fr; }
   .title-input { font-size: 23px; }
   .content-editor-wrapper { margin: 0 16px; }
