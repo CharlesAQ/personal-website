@@ -3,14 +3,12 @@
 import { useMemo, useState } from "react";
 import type { SoftwareItem } from "../types";
 import { formatBytes } from "../lib/format";
-import SpotlightCard from "./SpotlightCard/SpotlightCard";
+import SpecularButton from "./SpecularButton/SpecularButton";
 
 type SoftwareGridProps = {
   items: SoftwareItem[];
   loading: boolean;
 };
-
-const SPOTLIGHT_COLOR = "rgba(23, 23, 23, 0.08)";
 
 export function SoftwareGrid({ items, loading }: SoftwareGridProps) {
   const [platform, setPlatform] = useState("全部");
@@ -61,11 +59,7 @@ export function SoftwareGrid({ items, loading }: SoftwareGridProps) {
 
         {!loading &&
           visibleItems.map((item) => (
-            <SpotlightCard
-              key={item.id}
-              className="tile-card"
-              spotlightColor={SPOTLIGHT_COLOR}
-            >
+            <div key={item.id} className="tile-card">
               <div className="tile-icon">
                 <span className="file-glyph">⌑</span>
               </div>
@@ -75,10 +69,20 @@ export function SoftwareGrid({ items, loading }: SoftwareGridProps) {
                 <span>{item.platform}</span>
                 <span>{formatBytes(item.fileSize)}</span>
               </div>
-              <a className="tile-download" href={`/api/software/${item.id}/download`}>
+              <SpecularButton
+                size="sm"
+                tint="#0a0a0a"
+                tintOpacity={1}
+                textColor="#fafafa"
+                lineColor="#ffffff"
+                baseColor="#3a3a3a"
+                radius={12}
+                className="tile-download-btn"
+                onClick={() => { window.location.href = `/api/software/${item.id}/download`; }}
+              >
                 下载
-              </a>
-            </SpotlightCard>
+              </SpecularButton>
+            </div>
           ))}
 
         {!loading && visibleItems.length === 0 && (

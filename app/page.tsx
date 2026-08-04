@@ -6,6 +6,7 @@ import { SoftwareGrid } from "./components/SoftwareGrid";
 import { BookmarksGrid } from "./components/BookmarksGrid";
 import FlipClock from "./components/FlipClock";
 import ParticleText from "./components/ParticleText/ParticleText";
+import SpecularButton from "./components/SpecularButton/SpecularButton";
 
 type Bookmark = {
   id: number;
@@ -48,8 +49,19 @@ export default function HomePage() {
           <div className="nav-links">
             <a href="#software">软件库</a>
             <a href="#bookmarks">网址收藏</a>
-          <a href="#about">关于</a>
-            <a href="/admin" className="nav-admin">管理</a>
+            <a href="#about">关于</a>
+            <SpecularButton
+              size="sm"
+              tint="#0a0a0a"
+              tintOpacity={1}
+              textColor="#fafafa"
+              lineColor="#ffffff"
+              baseColor="#3a3a3a"
+              radius={18}
+              onClick={() => { window.location.href = "/admin"; }}
+            >
+              管理
+            </SpecularButton>
           </div>
         </div>
       </nav>

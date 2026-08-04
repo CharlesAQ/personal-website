@@ -62,11 +62,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
 .nav-links { display: flex; align-items: center; gap: 24px; }
 .nav-links a { font-size: 13px; color: var(--mid-gray); font-weight: 500; transition: color .15s; }
 .nav-links a:hover { color: var(--ink); }
-.nav-links .nav-admin {
-  padding: 8px 16px; border-radius: var(--r-btn);
-  background: var(--ink); color: #fafafa; font-size: 13px;
-}
-.nav-links .nav-admin:hover { background: var(--ink-soft); color: #fafafa; }
+
 
 /* ── Hero ── */
 .hero {
@@ -205,12 +201,11 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
   padding: 2px 5px; border-radius: var(--r-btn);
   max-width: 100%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
 }
-.tile-download {
-  margin-top: 6px; padding: 4px 12px; border-radius: var(--r-btn);
-  background: var(--ink); color: #fafafa; font-size: 10px; font-weight: 500;
-  transition: background .15s;
+.tile-download-btn {
+  margin-top: 8px !important;
+  padding: 6px 16px !important;
+  font-size: 10px !important;
 }
-.tile-download:hover { background: var(--ink-soft); }
 .tile-link { display: block; }
 .tile-empty { grid-column: 1 / -1; }
 

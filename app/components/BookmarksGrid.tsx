@@ -1,7 +1,6 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import SpotlightCard from "./SpotlightCard/SpotlightCard";
 
 type Bookmark = {
   id: number;
@@ -11,8 +10,6 @@ type Bookmark = {
   category: string;
   createdAt: string;
 };
-
-const SPOTLIGHT_COLOR = "rgba(23, 23, 23, 0.08)";
 
 function favicon(url: string) {
   try {
@@ -77,13 +74,13 @@ export function BookmarksGrid({ items, loading }: { items: Bookmark[]; loading: 
         {!loading &&
           visibleItems.map((item) => (
             <a key={item.id} href={item.url} target="_blank" rel="noreferrer" className="tile-link">
-              <SpotlightCard className="tile-card" spotlightColor={SPOTLIGHT_COLOR}>
+              <div className="tile-card">
                 <div className="tile-icon tile-favicon">
                   <BookmarkIcon url={item.url} />
                 </div>
                 <div className="tile-name">{item.name}</div>
                 <div className="tile-version">{item.category}</div>
-              </SpotlightCard>
+              </div>
             </a>
           ))}
 
