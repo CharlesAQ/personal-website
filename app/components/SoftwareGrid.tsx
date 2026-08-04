@@ -3,14 +3,14 @@
 import { useMemo, useState } from "react";
 import type { SoftwareItem } from "../types";
 import { formatBytes } from "../lib/format";
-import PixelCard from "./PixelCard/PixelCard";
+import SpotlightCard from "./SpotlightCard/SpotlightCard";
 
 type SoftwareGridProps = {
   items: SoftwareItem[];
   loading: boolean;
 };
 
-const PIXEL_COLORS = "#d4d4d4,#a3a3a3,#737373";
+const SPOTLIGHT_COLOR = "rgba(23, 23, 23, 0.08)";
 
 export function SoftwareGrid({ items, loading }: SoftwareGridProps) {
   const [platform, setPlatform] = useState("全部");
@@ -61,7 +61,11 @@ export function SoftwareGrid({ items, loading }: SoftwareGridProps) {
 
         {!loading &&
           visibleItems.map((item) => (
-            <PixelCard key={item.id} colors={PIXEL_COLORS} gap={5} speed={40} className="tile-card">
+            <SpotlightCard
+              key={item.id}
+              className="tile-card"
+              spotlightColor={SPOTLIGHT_COLOR}
+            >
               <div className="tile-icon">
                 <span className="file-glyph">⌑</span>
               </div>
@@ -74,7 +78,7 @@ export function SoftwareGrid({ items, loading }: SoftwareGridProps) {
               <a className="tile-download" href={`/api/software/${item.id}/download`}>
                 下载
               </a>
-            </PixelCard>
+            </SpotlightCard>
           ))}
 
         {!loading && visibleItems.length === 0 && (
